@@ -21,7 +21,10 @@
 	    });
 	}
 
-	/*College*/
+	/*
+	*	College
+	*/
+
 	$('#college-create-form').submit(function (event){
 		event.preventDefault();
 
@@ -57,9 +60,6 @@
 		var college_name = $('input[name=college-name]').val();
 		var college_status = $('select[name=college-status]').val();
 
-		console.log(form.prop('action'));
-
-		
 		$.ajax({
 			url: form.prop('action'),
 			type: 'PUT',
@@ -76,6 +76,34 @@
 				/*$.each(errors, function(i, data){
 					console.log(data);
 				});*/
+			}
+		});
+	});
+
+	/*
+	*	Course
+	*/
+	$('#course-create-form').submit(function (event){
+		event.preventDefault();
+
+		var form = $('#course-create-form');
+		var college = $('select[name=college]').val();
+		var course_abrr = $('input[name=course-abrr]').val();
+		var course_name = $('input[name=course-name]').val();
+
+		$.ajax({
+			url: form.prop('action'),
+			type: 'POST',
+			data: {
+				college: college,
+				course_abrr: course_abrr,
+				course_name: course_name
+			},
+			success: function (data){
+				window.location = App.api + "/course";
+			},
+			error: function (err){
+
 			}
 		});
 	});
