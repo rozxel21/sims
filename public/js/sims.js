@@ -81,8 +81,20 @@
 	});
 
 	/*
-	*	Course
+	*	Course & Major
 	*/
+	var addMajor = 2;
+
+	$('#add-major-btn').click(function(){
+		addMajor++;
+		var markup = "<div class='form-group'>";
+            markup += "<label class='col-sm-2 control-label'></label>";
+            markup += "<div class='col-sm-10'>";
+            markup += "<input type='text' name='major-name-" + addMajor + "' class='form-control' minlength='5' maxlength='50' />"; 
+            markup += "</div></div>";
+		$('#add-major').append(markup);
+	});
+
 	$('#course-create-form').submit(function (event){
 		event.preventDefault();
 
@@ -90,6 +102,16 @@
 		var college = $('select[name=college]').val();
 		var course_abrr = $('input[name=course-abrr]').val();
 		var course_name = $('input[name=course-name]').val();
+
+		var majorList = [], ctr = 0;
+		for (var i = 1; i <= addMajor; i++) {
+            var temp = $("input[name=major-name-"+i+"]").val();
+            if (temp != "" && temp != undefined && temp != null) {
+                majorList.push(temp); ctr++; 
+            }
+        }
+        var majorString = JSON.stringify(majorList);
+        addMajor = 2;
 
 		$.ajax({
 			url: form.prop('action'),
@@ -100,10 +122,28 @@
 				course_name: course_name
 			},
 			success: function (data){
-				window.location = App.api + "/course";
+				if(ctr!=0){
+					$.ajax({
+						url: App.api + '/major',
+						type: 'POST',
+						data: {
+							course_abrr: course_abrr,
+							majors: majorString
+						},
+						success: function(data){
+							window.location = App.api + "/course";
+						},
+						error: function(err){
+							console.log(err);
+						}
+					});
+				}else{
+					window.location = App.api + "/course";
+				}
 			},
 			error: function (err){
-
+				window.location = App.api + "/course";
+				console.log(err);
 			}
 		});
 	});

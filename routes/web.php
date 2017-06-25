@@ -17,3 +17,4 @@ Route::get('/', function () {
 
 Route::resource('college', 'CollegeController');
 Route::resource('course', 'CourseController');
+Route::resource('major', 'MajorController', ['except' => ['create']]);

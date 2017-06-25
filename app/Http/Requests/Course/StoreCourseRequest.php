@@ -24,7 +24,7 @@ class StoreCourseRequest extends Request
     public function rules()
     {
         return [
-            'course_abrr' => 'required|unique:course_abrr',
+            'course_abrr' => 'required|unique:courses',
             'course_name' => 'required'
         ];
     }

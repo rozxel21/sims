@@ -31,7 +31,7 @@ class CreateCoursesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('courses');
-        //Schema::dropIfExists('courses');
+        //Schema::drop('courses');
+        Schema::dropIfExists('courses');
     }
 }

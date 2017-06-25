@@ -31,7 +31,7 @@
             <form id="course-create-form" action="{{ route('course.store') }}" method="POST" class="form-horizontal">
                 {{ csrf_field() }}
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">Course Abbrevation</label>
+                    <label class="col-sm-2 control-label">College</label>
                     <div class="col-sm-10">
                         <select name="college" class="form-control">
                             @foreach($colleges as $college)
@@ -53,8 +53,26 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="col-sm-2 control-label"></label>
+                    <p class="col-sm-10 text-center"><em>*if applicable</em>></p>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Course Major</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="major-name-1" class="form-control" minlength="5" maxlength="50" /> 
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-10">
+                        <input type="text" name="major-name-2" class="form-control" minlength="5" maxlength="50" /> 
+                    </div>
+                </div>
+                <div id='add-major'></div>
+                <div class="form-group">
                     <div class="col-sm-2"></div>
                     <div class="col-sm-10">
+                        <button id='add-major-btn' type="button" class="btn btn-info"><i class="fa fa-plus"></i>&nbsp;Add Major</button>
                         <button class="btn btn-primary" type="submit"><i class="fa fa-check"></i>&nbsp;Submit</button>
                     </div>
                 </div>
