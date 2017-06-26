@@ -10,6 +10,9 @@
             <li class="active">
                 <strong>Course</strong>
             </li>
+            <li class="active">
+                <a href="{{ route('course.create') }}">New</a>
+            </li>
         </ol>
     </div>
     <div class="col-lg-2">
@@ -22,20 +25,8 @@
         <div class="ibox-title">
             <h5>Basic Table</h5>
             <div class="ibox-tools">
-                <a class="collapse-link">
-                    <i class="fa fa-chevron-up"></i>
-                </a>
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <i class="fa fa-wrench"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-user">
-                    <li><a href="#">Config option 1</a>
-                    </li>
-                    <li><a href="#">Config option 2</a>
-                    </li>
-                </ul>
-                <a class="close-link">
-                    <i class="fa fa-times"></i>
+                <a href="{{ route('course.create') }}">
+                    <i class="fa fa-plus"></i>
                 </a>
             </div>
         </div>
@@ -47,6 +38,7 @@
                         <th>#</th>
                         <th>Abbreviation</th>
                         <th>Name</th>
+                        <th>College</th>
                         <th>Active</th>
                         <th>Actions</th>
                     </tr>
@@ -59,6 +51,7 @@
                         <td>{{ $i }}</td>
                         <td>{{ $str->upper($course->course_abrr) }}</td>
                         <td>{{ $course->course_name }}</td>
+                        <td>{{ $course->college->college_name }}</td>
                         @if( $course->course_status == 1 )
                             <td><span class="label label-success">Active</span></td>
                         @else

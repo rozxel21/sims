@@ -13,7 +13,7 @@ use App\Models\Course;
 class CourseController extends Controller
 {
     public function index(){
-		$courses = Course::All();
+		$courses = Course::with('college')->get();
 		$i = 1;
 		return view('course.index', compact('courses'));
 	}
@@ -25,12 +25,17 @@ class CourseController extends Controller
 
 	public function store(StoreCourseRequest $request){
 		$course = new Course;
-		$course->college = $request->college;
+		$course->college_id = $request->college;
 		$course->course_guid = Uuid::uuid();
 		$course->course_abrr = $request->course_abrr;
-		$course->course_name = $request->course_name; 
+		$course->course_name = $request->course_name;
 		$course->save();
 
 		return "okay";
+	}
+
+	public function test(){
+		return $course = College::with('courses')->get();
+		//return $course->college->college_name;
 	}
 }

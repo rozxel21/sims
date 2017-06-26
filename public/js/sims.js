@@ -28,11 +28,12 @@
 	$('#college-create-form').submit(function (event){
 		event.preventDefault();
 
+		var form = $('#college-create-form');
 		var college_abrr = $('input[name=college-abrr]').val();
 		var college_name = $('input[name=college-name]').val();
 
 		$.ajax({
-			url: App.api + '/college',
+			url: form.prop('action'),
 			type: 'POST',
 			data: {
 				college_abrr: college_abrr,

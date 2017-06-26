@@ -17,7 +17,7 @@ class CreateTableMajors extends Migration
            $table->increments('id');
             $table->string('major_guid', 36)->unique();
             $table->string('major_name', 120);
-            $table->string('course', 10);
+            $table->string('course_id', 10);
             $table->timestamps();
             $table->boolean('major_status')->default(true);
         });

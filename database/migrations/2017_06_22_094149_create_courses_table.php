@@ -18,7 +18,7 @@ class CreateCoursesTable extends Migration
             $table->string('course_guid', 36)->unique();
             $table->string('course_abrr', 10)->unique();
             $table->string('course_name', 120);
-            $table->string('college', 10);
+            $table->string('college_id', 10);
             $table->timestamps();
             $table->boolean('course_status')->default(true);
         });

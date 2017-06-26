@@ -10,6 +10,12 @@ use App\Models\Course;
 
 class MajorController extends Controller
 {
+
+    public function index(){
+        $majors = Major::with('course')->get();
+        return view('major.index', compact('majors'));
+    }
+
     public function store(Request $request){
 		$course = Course::where('course_abrr', $request->course_abrr)->get()->first();
 
@@ -19,9 +25,13 @@ class MajorController extends Controller
             $major = new Major;
             $major->major_guid =  Uuid::uuid();
             $major->major_name = $name;
-            $major->course = $course->id;
+            $major->course_id = $course->id;
             $major->save();
         }
     	return "okay";
 	}
+
+    public function test(){
+        
+    }
 }

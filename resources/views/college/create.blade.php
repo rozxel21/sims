@@ -28,7 +28,7 @@
             <h5>Create New College</h5>
         </div>
         <div class="ibox-content">
-        	<form id="college-create-form" method="POST" class="form-horizontal">
+        	<form id="college-create-form" action="{{ route('college.store') }}" method="POST" class="form-horizontal">
                 {{ csrf_field() }}
         		<div class="form-group">
         			<label class="col-sm-2 control-label">College Abbrevation</label>
