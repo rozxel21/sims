@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Faker\Provider\Uuid;
 
 class CreateCollegesTable extends Migration
 {
@@ -15,7 +16,7 @@ class CreateCollegesTable extends Migration
     {
         Schema::create('colleges', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('college_guid', 36)->unique();
+            $table->uuid('college_guid')->default(Uuid::uuid());
             $table->string('college_abrr', 10)->unique();
             $table->string('college_name', 120);
             $table->timestamps();

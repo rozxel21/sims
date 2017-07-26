@@ -15,8 +15,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('college', 'CollegeController');
-Route::resource('course', 'CourseController');
-Route::resource('major', 'MajorController', ['except' => ['create']]);
+/*
+	Major edit
 
-Route::get('/test', 'CourseController@test');
+*/
+
+Route::resource('college', 'CollegeController', ['except' => 'show']);
+Route::resource('course', 'CourseController', ['except' => 'show']);
+Route::resource('major', 'MajorController', ['except' => 'show']);
+
+Route::get('/test/major', 'MajorController@test');

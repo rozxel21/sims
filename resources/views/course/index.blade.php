@@ -23,7 +23,7 @@
 @section('content')
 	<div class="ibox float-e-margins">
         <div class="ibox-title">
-            <h5>Basic Table</h5>
+            <h5>Course Table</h5>
             <div class="ibox-tools">
                 <a href="{{ route('course.create') }}">
                     <i class="fa fa-plus"></i>
@@ -31,7 +31,20 @@
             </div>
         </div>
         <div class="ibox-content">
+            <div id="flush-message"></div>
+            <script type="text/javascript">
+                if(localStorage.getItem("response") != null && localStorage.getItem("response") != undefined){
+                    var data =  JSON.parse(localStorage.getItem('response'));
+                    var html = "<div class='alert alert-" + data.status + " alert-dismissable animated fadeIn'>";
+                    html += "<button aria-hidden='true' data-dismiss='alert' class='close' type='button'>×</button>";
+                    html += data.message;
+                    html += "</div>";
 
+                    $("#flush-message").append(html);
+
+                    localStorage.clear();
+                }
+            </script>
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -70,7 +83,6 @@
                     @endforelse
                 </tbody>
             </table>
-
         </div>
     </div>
 @stop

@@ -21,6 +21,19 @@
 	    });
 	}
 
+	var displayValidationError = function (errors){
+		var markup = "<div class='alert alert-danger'>";
+		markup += "<button data-dismiss='alert' class='close close-sm' type='button'>";
+        markup += "<i class='fa fa-times'></i></button>";
+        markup += "<strong>Oh snap!</strong> Change a few things up and try submitting again."
+		markup += "<ul>";
+		$.each(errors, function(i, data){
+			markup += "<li>" + data + "</li>";
+		});
+		markup += "</ul></div>";
+		$('#validation-message').html(markup);
+	}
+
 	/*
 	*	College
 	*/
@@ -35,20 +48,18 @@
 		$.ajax({
 			url: form.prop('action'),
 			type: 'POST',
+			dataType: 'JSON',
 			data: {
 				college_abrr: college_abrr,
 				college_name: college_name
 			},
 			success: function (data) {
+				localStorage.setItem('response', JSON.stringify(data));
 				window.location = App.api + "/college";
-
 			},
 			error: function (err) {
-				/*var errors = $.parseJSON(err.responseText);*/
-				console.log('error');
-				/*$.each(errors, function(i, data){
-					console.log(data);
-				});*/
+				console.log(err.responseText);
+				displayValidationError($.parseJSON(err.responseText));
 			}
 		});
 	});
@@ -64,19 +75,18 @@
 		$.ajax({
 			url: form.prop('action'),
 			type: 'PUT',
+			dataType: 'JSON',
 			data: {
 				college_name: college_name,
 				college_status: college_status
 			},
 			success: function (data) {
+				localStorage.setItem('response', JSON.stringify(data));
 				window.location = App.api + "/college";		
 			},
 			error: function (err) {
-				/*var errors = $.parseJSON(err.responseText);
-				console.log('error');
-				/*$.each(errors, function(i, data){
-					console.log(data);
-				});*/
+				console.log(err.responseText);
+				displayValidationError($.parseJSON(err.responseText));
 			}
 		});
 	});
@@ -112,39 +122,109 @@
             }
         }
         var majorString = JSON.stringify(majorList);
-        addMajor = 2;
-
+        
 		$.ajax({
 			url: form.prop('action'),
 			type: 'POST',
+			dataType: 'JSON',
 			data: {
 				college: college,
 				course_abrr: course_abrr,
-				course_name: course_name
+				course_name: course_name,
+				majors: majorString
 			},
 			success: function (data){
-				if(ctr!=0){
-					$.ajax({
-						url: App.api + '/major',
-						type: 'POST',
-						data: {
-							course_abrr: course_abrr,
-							majors: majorString
-						},
-						success: function(data){
-							window.location = App.api + "/course";
-						},
-						error: function(err){
-							console.log(err);
-						}
-					});
-				}else{
-					window.location = App.api + "/course";
-				}
+				addMajor = 2;
+				localStorage.setItem('response', JSON.stringify(data));
+				window.location = App.api + "/course";
 			},
 			error: function (err){
-				window.location = App.api + "/course";
-				console.log(err);
+				console.log(err.responseText);
+				displayValidationError($.parseJSON(err.responseText));
 			}
 		});
 	});
+
+	$('#course-edit-form').submit(function (event){
+		event.preventDefault();
+
+		var form = $('#course-edit-form');
+		var college_id = $('select[name=college]').val();
+		var course_name = $('input[name=course-name]').val();
+		var course_status = $('select[name=course-status]').val();
+
+		$.ajax({
+			url: form.prop('action'),
+			type: 'PUT',
+			dataType: 'JSON',
+			data: {
+				college_id: college_id,
+				course_name: course_name,
+				course_status: course_status
+			},
+			success: function (data) {
+				localStorage.setItem('response', JSON.stringify(data));
+				window.location = App.api + "/course";
+			},
+			error: function (err) {
+				console.log(err.responseText);
+				displayValidationError($.parseJSON(err.responseText));
+			}
+		});
+	});
+
+	$('#major-create-form').submit(function (event){
+		event.preventDefault();
+
+		var form = $('#major-create-form');
+		var course_id = $('select[name=course]').val();
+		var major_name = $('input[name=major-name]').val();
+		
+		$.ajax({
+			url: form.prop('action'),
+			type: 'POST',
+			dataType: 'JSON',
+			data: {
+				course_id: course_id,
+				major_name: major_name
+			},
+			success: function (data) {
+       		 	localStorage.setItem('response', JSON.stringify(data));	
+				window.location = App.api + "/major";
+			},
+			error: function (err) {
+				console.log(err.responseText);
+				displayValidationError($.parseJSON(err.responseText));
+			}
+		});
+	});
+
+	$('#major-edit-form').submit(function (event){
+		event.preventDefault();
+
+		var form = $('#major-edit-form');
+		var course_id = $('select[name=course]').val();
+		var major_name = $('input[name=major-name]').val();
+		var major_status = $('select[name=major-status]').val();
+		
+		$.ajax({
+			url: form.prop('action'),
+			type: 'PUT',
+			dataType: 'JSON',
+			data: {
+				course_id: course_id,
+				major_name: major_name,
+				major_status: major_status
+			},
+			success: function (data) {
+       		 	localStorage.setItem('response', JSON.stringify(data));
+				window.location = App.api + "/major";
+			},
+			error: function (err) {
+				console.log(err.responseText);
+				displayValidationError($.parseJSON(err.responseText));
+			}
+		});
+	});
+
+	

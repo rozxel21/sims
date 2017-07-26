@@ -28,6 +28,7 @@
             <h5>Create New College</h5>
         </div>
         <div class="ibox-content">
+            <div id='validation-message'></div>
         	<form id="college-create-form" action="{{ route('college.store') }}" method="POST" class="form-horizontal">
                 {{ csrf_field() }}
         		<div class="form-group">

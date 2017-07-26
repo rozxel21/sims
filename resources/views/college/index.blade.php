@@ -31,7 +31,20 @@
             </div>
         </div>
         <div class="ibox-content">
+            <div id="flush-message"></div>
+            <script type="text/javascript">
+                if(localStorage.getItem("response") != null && localStorage.getItem("response") != undefined){
+                    var data =  JSON.parse(localStorage.getItem('response'));
+                    var html = "<div class='alert alert-" + data.status + " alert-dismissable animated fadeIn'>";
+                    html += "<button aria-hidden='true' data-dismiss='alert' class='close' type='button'>×</button>";
+                    html += data.message;
+                    html += "</div>";
 
+                    $("#flush-message").append(html);
+
+                    localStorage.clear();
+                }
+            </script>
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -57,7 +70,7 @@
                         @endif
                         <td>
                             <a href="{{ route('college.edit', ['college_abrr' => $college->college_abrr ]) }}" class="btn btn-default btn-xs"><i class="fa fa-pencil"></i></a>
-                            <a href="{{ route('college.show', ['college_abrr' => $college->college_abrr ]) }}" class="btn btn-default btn-xs"><i class="fa fa-eye"></i></a>
+                            <a href="#" class="btn btn-default btn-xs"><i class="fa fa-eye"></i></a>
                             <button class="btn btn-default btn-xs"><i class="fa fa-times"></i></button>
                         </td>
                         <?php $i++ ?>
@@ -69,7 +82,9 @@
                     @endforelse
                 </tbody>
             </table>
-
+             <div class="text-center">
+                 {{ $colleges->links() }}
+             </div>
         </div>
     </div>
 @stop

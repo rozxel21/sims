@@ -28,6 +28,7 @@
             <h5>Edit College</h5>
         </div>
         <div class="ibox-content">
+            <div id='validation-message'></div>
         	<form id="college-edit-form" action="{{ route('college.update', $college->id) }}" class="form-horizontal">
                 {{ csrf_field() }}
         		<div class="form-group">

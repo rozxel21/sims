@@ -12,8 +12,7 @@ use App\Models\College;
 class CollegeController extends Controller{
 
 	public function index(){
-		$colleges = College::All();
-		$i = 1;
+		$colleges = College::paginate(20);
 		return view('college.index', compact('colleges'));
 	}
 
@@ -23,12 +22,14 @@ class CollegeController extends Controller{
 
 	public function store(StoreCollegeRequest $request){
 		$college = new College;
-		$college->college_guid = Uuid::uuid();
 		$college->college_abrr = $request->college_abrr;
 		$college->college_name = $request->college_name; 
 		$college->save();
 
-		return "okay";
+		return response()->json([
+            'status' => 'success',
+            'message' => 'College is Successfully Added!'
+        ]);
 	}
 
 	public function edit($college_abrr){
@@ -41,9 +42,14 @@ class CollegeController extends Controller{
 		$college->college_name = $request->college_name; 
 		$college->college_status = $request->college_status; 
 		$college->save();
+
+		return response()->json([
+            'status' => 'success',
+            'message' => 'College is Successfully Updated!'
+        ]);
 	}
 
-	public function show($id){
-		return view('college.show');
+	public function test(){
+		return College::All();
 	}
 }

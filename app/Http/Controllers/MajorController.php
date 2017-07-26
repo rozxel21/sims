@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Faker\Provider\Uuid;
 
+use App\Http\Requests\Major\StoreMajorRequest;
+use App\Http\Requests\Major\UpdateMajorRequest;
+
 use App\Models\Major;
 use App\Models\Course;
 
@@ -16,20 +19,41 @@ class MajorController extends Controller
         return view('major.index', compact('majors'));
     }
 
-    public function store(Request $request){
-		$course = Course::where('course_abrr', $request->course_abrr)->get()->first();
+    public function create(){
+        $courses = Course::where('course_status', true)->orderBy('course_name')->get();
+        return view('major.create', compact('courses'));
+    }
 
-		$majors = json_decode($request->majors);
-            
-        foreach ($majors as $name) {
-            $major = new Major;
-            $major->major_guid =  Uuid::uuid();
-            $major->major_name = $name;
-            $major->course_id = $course->id;
-            $major->save();
-        }
-    	return "okay";
+    public function store(StoreMajorRequest $request){
+        $major = new Major;
+        $major->course_id = $request->course_id;
+        $major->major_name = $request->major_name;
+        $major->save();
+		
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Major is Successfully Added!'
+        ]);
 	}
+
+    public function edit($id){
+        $courses = Course::where('course_status', true)->orderBy('course_name')->get();
+        $major = Major::find($id);
+        return view('major.edit', compact('courses', 'major'));
+    }
+
+    public function update($id, UpdateMajorRequest $request){
+        $major = Major::find($id);
+        $major->course_id = $request->course_id;
+        $major->major_name = $request->major_name;
+        $major->major_status = $request->major_status;
+        $major->save();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Major is Successfully Updated!'
+        ]);
+    }
 
     public function test(){
         
